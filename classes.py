@@ -35,7 +35,9 @@ class MathQuiz:
         self.QuestionLabel = Label(self.frame3, bg = "white", fg = "black", width=30, padx=40, pady=10, text = "NAME:", font = ("Helevtica", "14", "bold"))
         self.QuestionLabel.grid(row = 3, column = 0, stick = W)
 
-        self.NameEntry = Entry(self.frame3, width = 15)
+        self.name = StringVar()
+        self.name.set("")
+        self.NameEntry = Entry(self.frame3, width = 15, textvariable = self.name)
         self.NameEntry.grid(row = 3, column = 1, sticky = W)
 
         self.QuestionLabel = Label(self.frame3, bg = "white", fg = "black", width=30, padx=40, pady=10, text = "AGE:", font = ("Helevtica", "14", "bold"))
@@ -103,7 +105,6 @@ class MathQuiz:
         y = (random.randrange(10))
         self.answer = x + y
         problem_text = str(x) + " + " + str(y) + "  = "
-        self.correct_answers.append(1)
         self.QuestionLabel.configure(text = problem_text)
         self.check.configure(text = "Check Answer", fg = "black")
         self.AnswerEntry.delete(0, END)
@@ -132,6 +133,7 @@ class MathQuiz:
             if user_answer == self.answer:
                 self.check.configure(text = "Correct", fg = "green")
                 self.check.after(2500, self.newquestion)
+                self.correct_answers.append(1)
             else:
                 self.check.configure(text = "Try Again!", fg = "red")
                 self.AnswerEntry.delete(0, END)
@@ -141,6 +143,22 @@ class MathQuiz:
             self.check.configure(text = "That is not a number!", fg = "red")
             self.AnswerEntry.delete(0, END)
             self.AnswerEntry.focus()
+    def name_check(self):
+        try:
+            name = str(self.NameEntry.get())
+            if name == "":
+                self.text.configure(text = "Please enter your name")
+                self.NameEntry.focus()
+            elif any(name.isdigit() for char in name == True:
+                self.text.configure(text = "Please enter text only")
+                self.NameEntry.delete(0, END)
+                self.NameEntry.focus()
+            else:
+                self.show_frame1()
+        except ValueError:
+            self.text.configure(text = "That is not text!")
+            self.NameEntry.delete(0, END)
+            slef.NameEntry.focus()
 
     def age_check(self):
         self.frame2.grid_remove() #Removes frame 2
@@ -150,15 +168,17 @@ class MathQuiz:
         self.howto.config(state = DISABLED)
         try:
             age = int(self.AgeEntry.get())
-            name = str(self.NameEntry.get())
-            if age >= 3 and age <= 11 :
-                self.show_frame1()
+            if age >= 1 and age <= 12 :
+                self.name_check()
             else:
                 self.text.configure(text = "Sorry you're too old")
+                self.AgeEntry.delete(0, END)
+                self.AgeEntry.focus()
         except ValueError:
             self.text.configure(text = "That is not a number!")
             self.AgeEntry.delete(0, END)
             self.AgeEntry.focus()
+
 
 #Code in main routine
 if __name__ == "__main__": #Checks to see class name is the main module
