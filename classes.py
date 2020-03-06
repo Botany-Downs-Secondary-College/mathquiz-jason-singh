@@ -149,7 +149,7 @@ class MathQuiz:
             if name == "":
                 self.text.configure(text = "Please enter your name")
                 self.NameEntry.focus()
-            elif any(name.isdigit() for char in name == True:
+            elif name.isnumeric() == True:
                 self.text.configure(text = "Please enter text only")
                 self.NameEntry.delete(0, END)
                 self.NameEntry.focus()
