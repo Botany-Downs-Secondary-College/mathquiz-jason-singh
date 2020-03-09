@@ -46,6 +46,14 @@ class MathQuiz:
         self.AgeEntry = Entry(self.frame3, width = 15)
         self.AgeEntry.grid(row = 4, column = 1, sticky = W)
 
+        self.radio_var = StringVar()
+        self.rb1 = Radiobutton(self.frame3, width = 20, value = "1", variable = self.radio_var, text = "Easy", anchor = W)
+        self.rb1.grid(row = 6, column = 0)
+        self.rb2 = Radiobutton(self.frame3, width = 20, value = "2", variable = self.radio_var, text = "Medium", anchor = W)
+        self.rb2.grid(row = 7, column = 0)
+        self.rb3 = Radiobutton(self.frame3, width = 20, value = "3", variable = self.radio_var, text = "Hard", anchor = W)
+        self.rb3.grid(row = 8, column = 0)
+
         self.text = Button(self.frame3)
         self.text.grid(row = 5, column = 1)
 
@@ -101,8 +109,20 @@ class MathQuiz:
     def next_problem(self):
         """Creates a problem, stores the correct answer"""
         import random
-        x = (random.randrange(10))
-        y = (random.randrange(10))
+        difficulty = self.radio_var.get()
+        if difficulty == "1":
+            x = (random.randrange(10))
+            y = (random.randrange(10))
+        elif difficulty == "2":
+            x = (random.randrange(20))
+            y = (random.randrange(20))
+        elif difficulty == "3":
+            x = (random.randrange(50))
+            y = (random.randrange(50))
+        else:
+            x = (random.randrange(10))
+            y = (random.randrange(10))
+
         self.answer = x + y
         problem_text = str(x) + " + " + str(y) + "  = "
         self.QuestionLabel.configure(text = problem_text)
@@ -115,8 +135,8 @@ class MathQuiz:
         self.frame1.grid_remove()
         self.frame3.grid_remove()
         self.frame4.grid()
-        x = len(self.correct_answers)
-        reporttext = "Score:{}".format(x)
+        no_correct = len(self.correct_answers)
+        reporttext = "Score:{}".format(no_correct)
         self.report.insert(INSERT, reporttext)
         self.report.config(state = DISABLED)
 
