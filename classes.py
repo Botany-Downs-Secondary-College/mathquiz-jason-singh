@@ -9,6 +9,7 @@ import time
 class MathQuiz:
     def __init__(self, parent):
         self.correct_answers = []
+        self.incorrect_answers = []
 
         self.frame4 = Frame(parent)
         self.frame4.grid(row=0, column=1)
@@ -20,7 +21,7 @@ class MathQuiz:
         self.TitleLabel = Label(self.frame4, bg = "white", fg = "black", width = 50, padx = 40, pady = 10, text ="REPORT", font = ("Helevtica", "12", "bold"))
         self.TitleLabel.grid(columnspan = 2)
 
-        self.report = Text(self.frame4, width = 10)
+        self.report = Text(self.frame4, width = 80)
         self.report.grid(columnspan = 2)
 
         self.back = Button(self.frame4, text = "Go Back", anchor = W, command = self.show_frame1)
@@ -136,7 +137,9 @@ class MathQuiz:
         self.frame3.grid_remove()
         self.frame4.grid()
         no_correct = len(self.correct_answers)
-        reporttext = "Score:{}".format(no_correct)
+        no_incorrect = len(self.incorrect_answers)
+        name = (self.NameEntry.get())
+        reporttext = "{} you answered {} questions correctly and {} questions incorrectly.".format(name,no_correct,no_incorrect)
         self.report.insert(INSERT, reporttext)
         self.report.config(state = DISABLED)
 
@@ -156,6 +159,7 @@ class MathQuiz:
                 self.correct_answers.append(1)
             else:
                 self.check.configure(text = "Try Again!", fg = "red")
+                self.incorrect_answers.append(1)
                 self.AnswerEntry.delete(0, END)
                 self.AnswerEntry.focus()
                 self.check.after(2500, self.check_answer)
