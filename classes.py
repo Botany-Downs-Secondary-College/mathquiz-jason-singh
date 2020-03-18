@@ -139,7 +139,7 @@ class MathQuiz:
         no_correct = len(self.correct_answers)
         no_incorrect = len(self.incorrect_answers)
         name = (self.NameEntry.get())
-        reporttext = "{} you answered {} questions correctly and {} questions incorrectly.".format(name,no_correct,no_incorrect)
+        reporttext = "{} you answered {} question(s) correctly and {} question(s) incorrectly.".format(name,no_correct,no_incorrect)
         self.report.insert(INSERT, reporttext)
         self.report.config(state = DISABLED)
 
